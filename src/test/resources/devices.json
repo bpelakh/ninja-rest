@@ -1,0 +1,27 @@
+[
+  {
+    "id": "a",
+    "type": "MAC",
+    "name": "Mac A"
+  },
+  {
+    "id": "b",
+    "type": "MAC",
+    "name": "Mac D"
+  },
+  {
+    "id": "c",
+    "type": "MAC",
+    "name": "Mac C"
+  },
+  {
+    "id": "d",
+    "type": "WINDOWS_SERVER",
+    "name": "Server"
+  },
+  {
+    "id": "e",
+    "type": "WINDOWS_WORKSTATION",
+    "name": "WS"
+  }
+]

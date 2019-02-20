@@ -31,7 +31,7 @@ public class RmmDAOTest {
     @Before
     public void init() throws SQLException, IOException {
         runScript("/createDB.sql");
-        dao = new RmmDAO(MEMORY_DB);
+        dao = new RmmDAO(MEMORY_DB, "", "");
     }
 
     @After

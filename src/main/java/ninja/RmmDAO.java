@@ -21,8 +21,8 @@ public class RmmDAO {
     /**
      * Constructor.
      */
-    RmmDAO(final String jdbcUrl) throws SQLException {
-        connection = DriverManager.getConnection(jdbcUrl);
+    RmmDAO(final String jdbcUrl, final String user, final String password) throws SQLException {
+        connection = DriverManager.getConnection(jdbcUrl, user, password);
     }
 
     /**
@@ -38,9 +38,9 @@ public class RmmDAO {
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             for (Device record : devices) {
                 ps.setString(1, customer);
-                ps.setString(2, record.id());
-                ps.setString(3, record.type().toString());
-                ps.setString(4, record.name());
+                ps.setString(2, record.getId());
+                ps.setString(3, record.getType().toString());
+                ps.setString(4, record.getName());
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -62,10 +62,10 @@ public class RmmDAO {
         String query = "UPDATE devices SET type = ?, name = ? WHERE customer = ? AND id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             for (Device record : devices) {
-                ps.setString(1, record.type().toString());
-                ps.setString(2, record.name());
+                ps.setString(1, record.getType().toString());
+                ps.setString(2, record.getName());
                 ps.setString(3, customer);
-                ps.setString(4, record.id());
+                ps.setString(4, record.getId());
                 ps.addBatch();
             }
             ps.executeBatch();

@@ -1,7 +1,9 @@
 package ninja;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
@@ -9,8 +11,9 @@ import javax.validation.constraints.Size;
 
 /** A device associated with a customer. */
 @Data
-@Accessors(fluent = true)
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Device {
 
     public static enum Type {
