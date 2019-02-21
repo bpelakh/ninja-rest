@@ -26,12 +26,3 @@ insert into service_defs(service, type, price) VALUES('Cloudberry', '', 3);
 insert into service_defs(service, type, price) VALUES('PSA', '', 2);
 insert into service_defs(service, type, price) VALUES('TeamViewer', '', 1);
 insert into service_defs(service, type, price) VALUES('Device', '', 4);
-
-create table if not exists users (
-  username varchar(32) NOT NULL,
-  password varchar(32) NOT NULL,
-  rolename varchar(32) NOT NULL
-);
-
-insert into users(username, password, rolename) VALUES('Joe', 'opensesame', 'READER');
-insert into users(username, password, rolename) VALUES('Admin', 'verysecure', 'WRITER');

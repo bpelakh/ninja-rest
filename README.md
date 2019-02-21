@@ -10,9 +10,13 @@ Simple RMM billing system.
 
 * Copy `bpelakh-ninja.war` into the webapps directory of your favorite server. I tested using Tomcat 9.x.
 * Execute `src/main/resources/createDB.sql` in Postgres to initialize the schema. This script also 
-  * primes 
-the `service_defs` table with some pricing information and 
-  * creates two entries in the `users` table (`Joe` and `Admin`) in order to allow for secure access.
+  primes the `service_defs` table with some pricing information. 
+* Execute `src/main/resources/createDB.sql` in Postgres to initialize the `users` table. 
+  Since the passwords are encrypted, the `pgcrypt` extension should be installed in `postgres` 
+  (part of the standard install after 8.1).
+  This creates two entries in order to allow for secure access:
+  * `Joe`/`opensesame`, who is a `READER` only, and
+  * `Admin`/`verysecure`, a `WRITER` user.
 * Configure DB access for the application by setting the following system properties in your server:
   * `rmm.db.url` - JDBC URL.
   * `rmm.db.user`
@@ -21,8 +25,7 @@ the `service_defs` table with some pricing information and
 ## API
 
 The endpoint is secured using basic authentication, with read-only methods accessible to any
-authenticated user and data-altering methods only open to users with the `WRITER` role. Users 
-are defined in the `users` table in the DB, passwords are open text for simplicity, not security.
+authenticated user and data-altering methods only open to users with the `WRITER` role. 
 
 Methods:
 * `GET /rmm/devices/{customer}` - get the list of devices for a given customer

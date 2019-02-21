@@ -1,4 +1,4 @@
-drop table devices;
-drop table services;
-drop table service_defs;
-drop table users;
+drop table if exists devices;
+drop table if exists services;
+drop table if exists service_defs;
+drop table if exists users;

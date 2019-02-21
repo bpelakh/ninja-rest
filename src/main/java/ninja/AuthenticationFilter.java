@@ -87,16 +87,19 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
     /** Fetch user record from DB and validate against role set. */
     private boolean isUserAllowed(final String username, final String password, final Set<String> rolesSet) {
         try (PreparedStatement ps = getConnection().prepareStatement(
-                "select rolename from users where username = ? and password = ?"))
+                "select rolename from users where username = ? and password = crypt(?, password)"))
         {
             ps.setString(1, username);
             ps.setString(2, password);
+            System.out.println("About to run " + ps);
             ResultSet rs = ps.executeQuery();
             if (rs == null || !rs.next()) {
+                System.out.println("User " + username + " not found");
                 return false;
             }
             return rolesSet.contains(rs.getString(1));
         } catch (final SQLException sqle) {
+            sqle.printStackTrace();
             return false;
         }
     }
