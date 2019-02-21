@@ -91,10 +91,8 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
         {
             ps.setString(1, username);
             ps.setString(2, password);
-            System.out.println("About to run " + ps);
             ResultSet rs = ps.executeQuery();
             if (rs == null || !rs.next()) {
-                System.out.println("User " + username + " not found");
                 return false;
             }
             return rolesSet.contains(rs.getString(1));
