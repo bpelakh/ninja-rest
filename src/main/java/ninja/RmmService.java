@@ -1,5 +1,6 @@
 package ninja;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -46,6 +47,7 @@ public class RmmService {
     @Path("/devices/{customer}")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
+    @RolesAllowed({"READER","WRITER"})
     public List<Device> getDevices(@PathParam("customer") final String customer) {
         try {
             return getDao().getDevices(customer);
@@ -57,6 +59,7 @@ public class RmmService {
     @Path("/devices/{customer}")
     @Consumes(MediaType.APPLICATION_JSON)
     @POST
+    @RolesAllowed({"WRITER"})
     public Response addtDevices(@PathParam("customer") final String customer, @Valid final List<Device> devices) {
         try {
             getDao().addDevices(customer, devices);
@@ -69,30 +72,33 @@ public class RmmService {
     @Path("/devices/{customer}")
     @Consumes(MediaType.APPLICATION_JSON)
     @PUT
+    @RolesAllowed({"WRITER"})
     public Response updateDevices(@PathParam("customer") final String customer, @Valid final List<Device> devices) {
         try {
             getDao().updateDevices(customer, devices);
             return Response.accepted().build();
         } catch (final SQLException sqle) {
-            return Response.status(Response.Status.CONFLICT).entity(sqle.getMessage()).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(sqle.getMessage()).build();
         }
     }
 
     @Path("/devices/{customer}/{device}")
     @Consumes(MediaType.APPLICATION_JSON)
     @DELETE
+    @RolesAllowed({"WRITER"})
     public Response deleteDevice(@PathParam("customer") final String customer, @PathParam("device") final String device) {
         try {
             getDao().deleteDevice(customer, device);
             return Response.accepted().build();
         } catch (final SQLException sqle) {
-            return Response.status(Response.Status.CONFLICT).entity(sqle.getMessage()).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(sqle.getMessage()).build();
         }
     }
 
     @Path("/services/{customer}")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
+    @RolesAllowed({"READER","WRITER"})
     public List<String> getServices(@PathParam("customer") final String customer) {
         try {
             return getDao().getServices(customer);
@@ -104,6 +110,7 @@ public class RmmService {
     @Path("/services/{customer}")
     @Consumes(MediaType.APPLICATION_JSON)
     @POST
+    @RolesAllowed({"WRITER"})
     public Response addtServices(@PathParam("customer") final String customer, @Valid final List<String> services) {
         try {
             getDao().addServices(customer, services);
@@ -116,24 +123,26 @@ public class RmmService {
     @Path("/services/{customer}/{service}")
     @Consumes(MediaType.APPLICATION_JSON)
     @DELETE
+    @RolesAllowed({"WRITER"})
     public Response deleteService(@PathParam("customer") final String customer, @PathParam("service") final String service) {
         try {
             getDao().deleteService(customer, service);
             return Response.accepted().build();
         } catch (final SQLException sqle) {
-            return Response.status(Response.Status.CONFLICT).entity(sqle.getMessage()).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(sqle.getMessage()).build();
         }
     }
 
     @Path("/cost/{customer}")
     @Consumes(MediaType.APPLICATION_JSON)
     @GET
+    @RolesAllowed({"READER","WRITER"})
     public Response montlyCost(@PathParam("customer") final String customer) {
         try {
             final int cost = getDao().monthlyCost(customer);
             return Response.ok(cost).build();
         } catch (final SQLException sqle) {
-            return Response.status(Response.Status.CONFLICT).entity(sqle.getMessage()).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(sqle.getMessage()).build();
         }
     }
 }
