@@ -20,22 +20,6 @@ import java.util.*;
 @Provider
 public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequestFilter {
 
-    /**
-     * Connecting to local Postgres by default, modify through rmm.db.url property.
-     */
-    private final String DB_URL = System.getProperty("rmm.db.url", "jdbc:postgresql://localhost/ninja");
-
-    /**
-     * DB username - override through rmm.db.user property.
-     */
-    private final String DB_USER = System.getProperty("rmm.db.user", "boris");
-
-    /**
-     * DB password - override through rmm.db.password property.
-     * In a real system, would use secure connection provided by container.
-     */
-    private final String DB_PWD = System.getProperty("rmm.db.password", "password");
-
     private Connection connection;
 
     private Connection getConnection() throws SQLException {
@@ -47,7 +31,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+            connection = DriverManager.getConnection(DBConfig.DB_URL, DBConfig.DB_USER, DBConfig.DB_PWD);
         }
         return connection;
     }
@@ -85,10 +69,6 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
         final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
         final String username = tokenizer.nextToken();
         final String password = tokenizer.nextToken();
-
-        //Verifying Username and password
-        System.out.println(username);
-        System.out.println(password);
 
         //Verify user access
         if (method.isAnnotationPresent(RolesAllowed.class)) {

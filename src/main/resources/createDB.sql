@@ -33,5 +33,5 @@ create table if not exists users (
   rolename varchar(32) NOT NULL
 );
 
-insert into users(username, password, rolename) VALUES('Boris', 'opensesame', 'READER');
+insert into users(username, password, rolename) VALUES('Joe', 'opensesame', 'READER');
 insert into users(username, password, rolename) VALUES('Admin', 'verysecure', 'WRITER');

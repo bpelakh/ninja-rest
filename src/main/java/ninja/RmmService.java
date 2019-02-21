@@ -12,22 +12,6 @@ import java.util.List;
 @Path("/rmm")
 public class RmmService {
 
-    /**
-     * Connecting to local Postgres by default, modify through rmm.db.url property.
-     */
-    private final String DB_URL = System.getProperty("rmm.db.url", "jdbc:postgresql://localhost/ninja");
-
-    /**
-     * DB username - override through rmm.db.user property.
-     */
-    private final String DB_USER = System.getProperty("rmm.db.user", "boris");
-
-    /**
-     * DB password - override through rmm.db.password property.
-     * In a real system, would use secure connection provided by container.
-     */
-    private final String DB_PWD = System.getProperty("rmm.db.password", "password");
-
     private RmmDAO dao;
 
     private RmmDAO getDao() throws SQLException {
@@ -39,7 +23,7 @@ public class RmmService {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            dao = new RmmDAO(DB_URL, DB_USER, DB_PWD);
+            dao = new RmmDAO(DBConfig.DB_URL, DBConfig.DB_USER, DBConfig.DB_PWD);
         }
         return dao;
     }
